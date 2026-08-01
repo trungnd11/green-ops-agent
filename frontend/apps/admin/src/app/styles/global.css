@@ -1,0 +1,43 @@
+@import "tailwindcss";
+@import "@xanh/design-tokens/theme.css";
+@import "@xanh/design-tokens/admin-theme.css";
+
+html {
+  font-family: 'Inter', sans-serif;
+}
+
+.ant-btn {
+  box-shadow: none !important;
+  cursor: pointer;
+}
+.ant-btn::after {
+  display: none !important;
+}
+
+button:not(:disabled),
+[role="button"]:not(:disabled),
+a[href] {
+  cursor: pointer;
+}
+
+/* Custom scrollbar - dark theme */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.08) transparent;
+}

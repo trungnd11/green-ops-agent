@@ -1,0 +1,56 @@
+@theme {
+  /* Brand colors */
+  --color-brand-cyan: #00AEEF;
+  --color-brand-teal: #00C7A5;
+  --color-brand-deep-teal: #007D73;
+  --color-brand-cyan-hover: #29BEF4;
+  --color-brand-teal-hover: #13D6B3;
+  --color-brand-soft: rgba(0, 199, 165, 0.14);
+
+  /* Background */
+  --color-bg-canvas: #07111F;
+  --color-bg-canvas-deep: #050B16;
+  --color-bg-sidebar: #091827;
+  --color-bg-topbar: #0B1725;
+  --color-bg-subtle: #101B2B;
+  --color-bg-elevated: #162231;
+
+  /* Surface */
+  --color-surface-card: #1C2737;
+  --color-surface-card-soft: #222D3D;
+  --color-surface-input: #3A4352;
+  --color-surface-input-hover: #434D5D;
+  --color-surface-overlay: #202A39;
+  --color-surface-selected: #123B45;
+
+  /* Semantic */
+  --color-semantic-success: #22C55E;
+  --color-semantic-warning: #F59E0B;
+  --color-semantic-error: #F05252;
+  --color-semantic-info: #38BDF8;
+  --color-semantic-pending: #A78BFA;
+  --color-semantic-onhold: #C084FC;
+
+  /* Text */
+  --color-text-primary: #F8FAFC;
+  --color-text-secondary: #B6C0CD;
+  --color-text-tertiary: #8792A2;
+  --color-text-disabled: #667180;
+  --color-text-inverse: #07111F;
+
+  /* Border */
+  --color-border-default: rgba(255, 255, 255, 0.12);
+  --color-border-strong: rgba(255, 255, 255, 0.20);
+  --color-border-focus: #00AEEF;
+  --color-border-success: #00C7A5;
+
+  /* Typography */
+  --font-heading: 'Manrope', sans-serif;
+  --font-ui: 'Inter', sans-serif;
+
+  /* Radius */
+  --radius-badge: 10px;
+  --radius-btn: 12px;
+  --radius-card: 20px;
+  --radius-pill: 999px;
+}

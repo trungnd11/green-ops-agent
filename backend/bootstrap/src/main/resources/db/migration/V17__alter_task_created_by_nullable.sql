@@ -1,0 +1,1 @@
+ALTER TABLE admin_task ALTER COLUMN created_by DROP NOT NULL;

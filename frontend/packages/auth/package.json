@@ -1,0 +1,21 @@
+{
+  "name": "@xanh/auth",
+  "private": true,
+  "version": "0.0.1",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage"
+  },
+  "dependencies": {
+    "@xanh/api-client": "workspace:*",
+    "@xanh/shared-types": "workspace:*",
+    "zod": "catalog:"
+  },
+  "devDependencies": {
+    "vitest": "^2.1.0"
+  }
+}

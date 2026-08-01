@@ -1,0 +1,12 @@
+{
+    "name":  "@xanh/typescript-config",
+    "private":  true,
+    "version":  "0.0.1",
+    "exports":  {
+                    "./*":  "./*"
+                },
+    "scripts":  {
+                    "test":  "echo no-tests",
+                    "test:coverage":  "echo no-tests"
+                }
+}

@@ -1,0 +1,14 @@
+{
+    "name":  "@xanh/design-tokens",
+    "private":  true,
+    "version":  "0.0.1",
+    "exports":  {
+                    "./theme.css":  "./src/theme.css",
+                    "./admin-theme.css":  "./src/admin-theme.css",
+                    "./driver-theme.css":  "./src/driver-theme.css"
+                },
+    "scripts":  {
+                    "test":  "echo no-tests",
+                    "test:coverage":  "echo no-tests"
+                }
+}

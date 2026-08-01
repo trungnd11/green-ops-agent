@@ -1,0 +1,19 @@
+{
+    "name": "@xanh/eslint-config",
+    "private": true,
+    "version": "0.0.1",
+    "type": "module",
+    "exports": {
+        "./react": "./react.js"
+    },
+    "dependencies": {
+        "@eslint/js": "catalog:",
+        "eslint-plugin-react": "catalog:",
+        "eslint-plugin-react-hooks": "catalog:",
+        "typescript-eslint": "^8.65.0"
+    },
+    "scripts": {
+        "test": "echo no-tests",
+        "test:coverage": "echo no-tests"
+    }
+}

@@ -1,0 +1,22 @@
+{
+  "name": "@xanh/api-client",
+  "private": true,
+  "version": "0.0.1",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./client": "./src/client/create-http-client.ts",
+    "./errors": "./src/errors/normalize-error.ts"
+  },
+  "scripts": {
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage"
+  },
+  "dependencies": {
+    "@xanh/shared-types": "workspace:*",
+    "axios": "catalog:"
+  },
+  "devDependencies": {
+    "vitest": "^2.1.0"
+  }
+}

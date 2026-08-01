@@ -1,0 +1,28 @@
+{
+  "name": "xanhsm",
+  "private": true,
+  "scripts": {
+    "dev": "turbo dev",
+    "dev:admin": "turbo dev --filter=@xanh/admin",
+    "dev:driver": "turbo dev --filter=@xanh/driver",
+    "build": "turbo build",
+    "build:admin": "turbo build --filter=@xanh/admin",
+    "build:driver": "turbo build --filter=@xanh/driver",
+    "lint": "turbo lint",
+    "typecheck": "turbo typecheck",
+    "test": "turbo test",
+    "test:coverage": "turbo test:coverage",
+    "format": "prettier --write .",
+    "clean": "turbo clean"
+  },
+  "devDependencies": {
+    "turbo": "^2.3.0",
+    "prettier": "^3.4.0",
+    "prettier-plugin-tailwindcss": "^0.6.0",
+    "@changesets/cli": "^2.27.0"
+  },
+  "packageManager": "pnpm@9.15.0",
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}

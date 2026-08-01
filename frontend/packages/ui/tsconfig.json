@@ -1,0 +1,9 @@
+{
+  "extends": "@xanh/typescript-config/react-package.json",
+  "compilerOptions": {
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "jsx": "react-jsx"
+  },
+  "include": ["src"]
+}

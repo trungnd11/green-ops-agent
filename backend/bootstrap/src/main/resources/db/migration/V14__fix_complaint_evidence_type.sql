@@ -1,0 +1,2 @@
+ALTER TABLE complaint ALTER COLUMN evidence TYPE TEXT;
+ALTER TABLE complaint ALTER COLUMN evidence SET DEFAULT '[]';

@@ -1,0 +1,9 @@
+[data-app='admin'] {
+  --app-primary: #00AEEF;
+  --app-primary-hover: #29BEF4;
+  --app-background: #07111F;
+  --app-sidebar: #091827;
+  --app-topbar: #0B1725;
+  --app-card: #1C2737;
+  --app-input: #3A4352;
+}
