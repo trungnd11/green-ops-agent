@@ -5,3 +5,4 @@ export { StatusPill } from './status-pill';
 export { IconTile } from './icon-tile';
 export { GlassButton } from './glass-button';
 export { GlassSheet } from './glass-sheet';
+export { WalletSheetsProvider, useWalletSheets } from './wallet-sheets';
