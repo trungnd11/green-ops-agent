@@ -1,12 +1,20 @@
 import { createContext, useCallback, useContext, useMemo, useState, type ReactNode } from 'react';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { formatCurrency } from '@xanh/utils';
-import { requestTopup, requestWithdraw } from '../modules/wallet/api/wallet.api';
+import { fetchDashboard, requestTopup, requestWithdraw } from '../modules/wallet/api/wallet.api';
 import { GlassSheet } from './glass-sheet';
 import { GlassButton } from './glass-button';
 import { useToast } from './toast';
 
 const QUICK_AMOUNTS = [500000, 1000000, 2000000];
+
+function readSession() {
+  try {
+    return JSON.parse(localStorage.getItem('xanhsm-driver-auth') || 'null');
+  } catch {
+    return null;
+  }
+}
 
 interface WalletSheetsValue {
   openTopup: () => void;
@@ -24,6 +32,14 @@ export function useWalletSheets(): WalletSheetsValue {
 export function WalletSheetsProvider({ children }: { children: ReactNode }) {
   const qc = useQueryClient();
   const toast = useToast();
+
+  const { data: dash } = useQuery({
+    queryKey: ['driver-dashboard'],
+    queryFn: fetchDashboard,
+    enabled: !!readSession(),
+    retry: false,
+  });
+  const balance = dash?.availableBalance ?? 0;
 
   const [topupOpen, setTopupOpen] = useState(false);
   const [withdrawOpen, setWithdrawOpen] = useState(false);
@@ -158,7 +174,7 @@ export function WalletSheetsProvider({ children }: { children: ReactNode }) {
         title="Rút tiền"
         description={
           <>
-            Số dư khả dụng: <span className="num" style={{ fontWeight: 700, color: 'var(--fg)' }}>2.847.500 ₫</span>
+            Số dư khả dụng: <span className="num" style={{ fontWeight: 700, color: 'var(--fg)' }}>{formatCurrency(balance)}</span>
           </>
         }
         footer={
@@ -169,7 +185,7 @@ export function WalletSheetsProvider({ children }: { children: ReactNode }) {
             <GlassButton
               style={{ flex: 1.6 }}
               isLoading={withdrawMut.isPending}
-              disabled={!withdrawAmountNum || withdrawAmountNum < 50000 || !bankInfo.trim() || withdrawAmountNum > 2847500}
+              disabled={!withdrawAmountNum || withdrawAmountNum < 50000 || !bankInfo.trim() || withdrawAmountNum > balance}
               onClick={() => withdrawMut.mutate()}
             >
               Gửi yêu cầu
@@ -211,8 +227,8 @@ export function WalletSheetsProvider({ children }: { children: ReactNode }) {
         <p className="amount-preview" style={{ marginTop: 14, minHeight: 20 }}>
           {withdrawAmountNum > 0 ? `Bạn sẽ nhận ${formatCurrency(withdrawAmountNum)}` : ''}
         </p>
-        {withdrawAmountNum > 0 && withdrawAmountNum > 2847500 && (
-          <p className="meta" style={{ color: 'var(--danger)', marginTop: 8 }}>Số dư không đủ (khả dụng: 2.847.500 ₫)</p>
+        {withdrawAmountNum > 0 && withdrawAmountNum > balance && (
+          <p className="meta" style={{ color: 'var(--danger)', marginTop: 8 }}>Số dư không đủ (khả dụng: {formatCurrency(balance)})</p>
         )}
         <div className="field" style={{ marginTop: 12 }}>
           <label htmlFor="withdrawBank">Tài khoản nhận</label>
