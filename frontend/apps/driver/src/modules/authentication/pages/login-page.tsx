@@ -2,9 +2,8 @@ import { useNavigate } from '@tanstack/react-router';
 import { useForm } from '@tanstack/react-form';
 import { z } from 'zod';
 import { LogIn } from 'lucide-react';
-import { Button } from '@xanh/ui/button';
-import { Input } from '@xanh/ui/input';
 import { authStore, router } from '../../../app/router';
+import { useTheme, ModePill, useToast } from '../../../shared';
 
 const loginSchema = z.object({
   identifier: z.string().min(1, 'Vui lòng nhập mã tài xế hoặc SĐT'),
@@ -12,6 +11,8 @@ const loginSchema = z.object({
 
 export function LoginPage() {
   const navigate = useNavigate();
+  const { theme, setMode } = useTheme();
+  const toast = useToast();
 
   const form = useForm({
     defaultValues: { identifier: '' },
@@ -39,6 +40,7 @@ export function LoginPage() {
             fullName: session.fullName,
           },
         } as any;
+        toast.show('Đăng nhập thành công');
         navigate({ to: '/' });
       } catch (err) {
         form.setErrorMap({
@@ -51,56 +53,71 @@ export function LoginPage() {
   const serverError = form.useStore((state) => state.errorMap?.onSubmit);
 
   return (
-    <div className="relative flex min-h-dvh flex-col items-center justify-center bg-bg-canvas overflow-hidden" data-app="driver">
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[300px] h-[300px] opacity-[0.06]" style={{ background: 'radial-gradient(circle, #00AEEF 0%, transparent 70%)' }} />
+    <div className="relative flex min-h-dvh flex-col overflow-hidden" data-app="driver">
+      <div className="wall" aria-hidden="true">
+        <div className="blob t1" />
+        <div className="blob t2" />
+        <div className="blob t3" />
+      </div>
 
-      <div className="relative w-[calc(100%-32px)] max-w-[400px] overflow-hidden rounded-3xl border backdrop-blur-3xl" style={{ borderColor: 'rgba(255,255,255,0.1)', background: '#1c2737f2' }}>
-        <div className="h-1 w-full bg-brand-teal" />
+      <div className="login-top relative z-10">
+        <ModePill theme={theme} onSelect={setMode} />
+      </div>
 
-        <div className="flex flex-col items-center px-6 pt-8" style={{ gap: '12px' }}>
-          <div className="flex h-12 w-12 items-center justify-center rounded-2xl" style={{ background: '#00c7a51f' }}>
-            <span className="text-xl text-brand-teal" style={{ fontFamily: 'Inter' }}>G</span>
-          </div>
-          <div className="flex flex-col items-center" style={{ gap: '12px' }}>
-            <h1 className="text-xl font-bold text-text-primary tracking-wide leading-none" style={{ fontFamily: 'Manrope' }}>GREENOPS TRANSPORT</h1>
-            <p className="text-xs text-text-tertiary leading-none">Đối tác tài xế</p>
+      <div className="login-wrap relative z-10">
+        <div className="login-logo">
+          <div className="brand-mark">G</div>
+          <div className="text-center">
+            <div className="login-brand">GREENOPS</div>
+            <div className="login-sub">Đối tác tài xế</div>
           </div>
         </div>
 
-        <form onSubmit={(e) => { e.preventDefault(); form.handleSubmit(); }}>
-          <div className="flex flex-col px-6" style={{ gap: '12px', paddingTop: '20px' }}>
-            <form.Field name="identifier">
-              {(field) => (
-                <div className="flex flex-col" style={{ gap: '6px' }}>
-                  <span className="text-[13px] font-medium text-text-secondary leading-none">Mã tài xế / SĐT</span>
-                  <Input
+        <form className="login-card glass" onSubmit={(e) => { e.preventDefault(); form.handleSubmit(); }} noValidate>
+          <form.Field name="identifier">
+            {(field) => (
+              <div className="field">
+                <label htmlFor="loginId">Mã tài xế / SĐT</label>
+                <div className={`input-shell ${field.state.meta.errors.length > 0 ? 'err' : ''}`}>
+                  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="11" cy="8" r="4" />
+                    <path d="M4.5 20a6.5 6.5 0 0 1 13 0" />
+                  </svg>
+                  <input
+                    id="loginId"
+                    type="text"
+                    placeholder="Nhập mã tài xế hoặc SĐT"
+                    autoComplete="username"
                     value={field.state.value}
                     onChange={(e) => field.handleChange(e.target.value)}
-                    placeholder="Nhập mã tài xế hoặc SĐT"
-                    hasError={!!field.state.meta.errors.length}
-                    className="!h-[48px]"
                   />
-                  {field.state.meta.errors.length > 0 && (
-                    <span className="text-[11px] text-semantic-error leading-none mt-0.5">{field.state.meta.errors[0]}</span>
-                  )}
                 </div>
-              )}
-            </form.Field>
-
-            {serverError && (
-              <p className="text-xs text-semantic-error leading-none" role="alert">{serverError}</p>
+                {field.state.meta.errors.length > 0 && (
+                  <p className="meta" style={{ color: 'var(--danger)' }}>{field.state.meta.errors[0]}</p>
+                )}
+              </div>
             )}
-          </div>
+          </form.Field>
 
-          <div className="flex flex-col items-center px-6" style={{ gap: '12px', paddingTop: '20px', paddingBottom: '28px' }}>
-            <form.Subscribe selector={(state) => state.isSubmitting}>
-              {(isSubmitting) => (
-                <Button htmlType="submit" className="!h-[48px] w-full text-base font-semibold" isLoading={isSubmitting} leftIcon={<LogIn className="h-5 w-5 mr-1.5" />}>
-                  Đăng nhập
-                </Button>
-              )}
-            </form.Subscribe>
-          </div>
+          {typeof serverError === 'string' && serverError && (
+            <p className="meta" style={{ color: 'var(--danger)' }} role="alert">{serverError}</p>
+          )}
+
+          <form.Subscribe selector={(state) => state.isSubmitting}>
+            {(isSubmitting) => (
+              <button type="submit" className="btn btn-primary" disabled={isSubmitting}>
+                {isSubmitting ? (
+                  <svg className="animate-spin" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+                    <path d="M12 3a9 9 0 1 0 9 9" />
+                  </svg>
+                ) : (
+                  <LogIn className="h-[18px] w-[18px]" strokeWidth={1.9} />
+                )}
+                Đăng nhập
+              </button>
+            )}
+          </form.Subscribe>
+          <p className="login-demo">Demo: nhập bất kỳ nội dung để vào ứng dụng</p>
         </form>
       </div>
     </div>
