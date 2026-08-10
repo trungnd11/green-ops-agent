@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { ChevronRight } from "lucide-react";
-import { Input } from "@xanh/ui/input";
+import { ChevronRight, Search } from "lucide-react";
 import { Skeleton } from "@xanh/ui/skeleton";
 import { fetchRevenueHistory } from "../api/income.api";
 import { formatCurrency } from "@xanh/utils";
@@ -23,7 +22,10 @@ export function IncomeListPage() {
 
   if (!periods) return (
     <div className="space-y-4 p-4">
-      <Input placeholder="Tìm kiếm theo tháng, quý..." disabled />
+      <div className="input-shell" style={{ opacity: 0.5 }}>
+        <Search size={17} strokeWidth={1.8} />
+        <input type="search" placeholder="Tìm kiếm theo tháng, quý..." disabled />
+      </div>
       <Skeleton variant="card" />
       <Skeleton variant="card" />
       <Skeleton variant="card" />
@@ -31,55 +33,53 @@ export function IncomeListPage() {
   );
 
   return (
-    <div className="space-y-4">
-      <div className="px-4 pt-4">
-        <h1 className="text-xl font-bold text-text-primary">Doanh thu</h1>
+    <div className="screen-pad" style={{ display: "flex", flexDirection: "column", gap: 18 }}>
+      <div className="row-between">
+        <h1 className="h1">Doanh thu</h1>
       </div>
-
-      <div className="px-4">
-        <Input
+      <div className="input-shell" data-od-id="income-search">
+        <Search size={17} strokeWidth={1.8} />
+        <input
+          type="search"
+          placeholder="Tìm kiếm theo tháng, quý..."
           value={keyword}
           onChange={(e) => setKeyword(e.target.value)}
-          placeholder="Tìm kiếm theo tháng, quý..."
         />
       </div>
-
-      <div className="space-y-3 px-4 pb-4">
+      <div id="incomeList" style={{ display: "flex", flexDirection: "column", gap: 12 }}>
         {isFetching ? (
           <>
             <Skeleton variant="card" />
             <Skeleton variant="card" />
           </>
         ) : (periods || []).map((period, i) => (
-          <div
-            key={i}
-            className="rounded-card border border-border-default bg-surface-card p-4 cursor-pointer hover:bg-bg-subtle transition-colors"
-          >
-            <div className="flex items-center justify-between">
+          <div key={i} className="period-card glass tap" data-od-id={`income-period-${i + 1}`}>
+            <div className="row-between">
               <div>
-                <h3 className="font-semibold text-text-primary">{period.periodName}</h3>
-                <p className="text-xs text-text-tertiary">{period.startDate} - {period.endDate}</p>
+                <h3 className="h2">{period.periodName}</h3>
+                <p className="meta" style={{ marginTop: 3 }}>{period.startDate} – {period.endDate}</p>
               </div>
-              <ChevronRight className="h-4 w-4 text-text-tertiary" />
+              <ChevronRight size={18} strokeWidth={1.8} style={{ color: "var(--meta)" }} />
             </div>
-            <div className="mt-3 space-y-1">
-              <div className="flex justify-between text-xs">
-                <span className="text-text-secondary">Doanh thu</span>
-                <span className="text-text-primary">{formatCurrency(period.totalRevenue)}</span>
+            <hr className="divider" style={{ margin: "14px 0" }} />
+            <div style={{ display: "flex", flexDirection: "column", gap: 9 }}>
+              <div className="row-between">
+                <span className="muted" style={{ fontSize: 13 }}>Doanh thu</span>
+                <span className="num" style={{ fontWeight: 600 }}>{formatCurrency(period.totalRevenue)}</span>
               </div>
-              <div className="flex justify-between text-xs">
-                <span className="text-text-secondary">Chuyến</span>
-                <span className="text-text-primary">{period.totalTrips}</span>
+              <div className="row-between">
+                <span className="muted" style={{ fontSize: 13 }}>Chuyến</span>
+                <span className="num" style={{ fontWeight: 600 }}>{period.totalTrips}</span>
               </div>
-              <div className="flex justify-between text-xs">
-                <span className="text-text-secondary">Thực nhận</span>
-                <span className="text-text-tertiary">{formatCurrency(period.earnedAmount)}</span>
+              <div className="row-between">
+                <span className="muted" style={{ fontSize: 13 }}>Thực nhận</span>
+                <span className="num" style={{ fontWeight: 600, color: "var(--success)" }}>{formatCurrency(period.earnedAmount)}</span>
               </div>
             </div>
           </div>
         ))}
         {!isFetching && (!periods || periods.length === 0) && (
-          <p className="text-center text-text-tertiary py-8">
+          <p className="meta" style={{ textAlign: "center", padding: "28px 0" }}>
             {keyword ? "Không tìm thấy kỳ doanh thu" : "Chưa có dữ liệu doanh thu"}
           </p>
         )}
