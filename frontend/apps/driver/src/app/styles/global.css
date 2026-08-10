@@ -1,6 +1,7 @@
 @import "tailwindcss";
 @import "@xanh/design-tokens/theme.css";
 @import "@xanh/design-tokens/driver-theme.css";
+@import "./driver-glass.css";
 
 html {
   font-family: 'Inter', sans-serif;
