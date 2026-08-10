@@ -1,6 +1,9 @@
 /* GreenOps Driver — Apple Liquid Glass (ported from design/driver-app-liquid-glass.html) */
 
-* { margin: 0; padding: 0; box-sizing: border-box; }
+@layer base {
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+}
+
 html, body { height: 100%; }
 body {
   font-family: var(--font-body);
@@ -103,6 +106,7 @@ svg { display: block; }
 }
 
 .eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+.screen-pad { padding: var(--space-5) var(--space-4) var(--space-6); }
 .h1 { font-family: var(--font-display); font-size: var(--text-2xl); font-weight: 800; letter-spacing: -0.02em; line-height: 1.15; }
 .h2 { font-family: var(--font-display); font-size: var(--text-lg); font-weight: 700; letter-spacing: -0.01em; }
 .section-title { font-family: var(--font-display); font-size: var(--text-lg); font-weight: 700; letter-spacing: -0.01em; color: var(--fg); }
