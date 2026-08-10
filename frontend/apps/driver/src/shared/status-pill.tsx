@@ -2,6 +2,8 @@ import type { ReactNode } from 'react';
 
 type PillVariant = 'ok' | 'warn' | 'bad' | 'pending';
 
+export type { PillVariant };
+
 const VARIANT_CLASS: Record<PillVariant, string> = {
   ok: 'pill-ok',
   warn: 'pill-warn',

@@ -7,7 +7,6 @@ import { Route as AuthNotificationsRoute } from './modules/notification/routes/n
 import { Route as AuthWalletRoute } from './modules/wallet/routes/wallet';
 import { Route as AuthProfileRoute } from './modules/profile/routes/profile';
 import { Route as AuthComplaintListRoute } from './modules/complaint/routes/complaint-list';
-import { Route as AuthComplaintCreateRoute } from './modules/complaint/routes/complaint-create';
 import { Route as AuthComplaintDetailRoute } from './modules/complaint/routes/complaint-detail';
 
 const routeTree = rootRoute.addChildren([
@@ -19,7 +18,6 @@ const routeTree = rootRoute.addChildren([
     AuthWalletRoute,
     AuthProfileRoute,
     AuthComplaintListRoute,
-    AuthComplaintCreateRoute,
     AuthComplaintDetailRoute,
   ]),
 ]);
