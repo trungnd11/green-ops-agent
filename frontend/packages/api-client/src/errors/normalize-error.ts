@@ -3,13 +3,17 @@ import type { AppError } from '@xanh/shared-types';
 
 export function normalizeError(error: unknown): AppError {
   if (isAxiosError(error)) {
-    return {
-      code: error.response?.data?.code,
+    const result: AppError = {
       message: error.response?.data?.message ?? error.message,
-      status: error.response?.status,
-      fieldErrors: error.response?.data?.fieldErrors,
       originalError: error,
     };
+    const code = error.response?.data?.code;
+    const status = error.response?.status;
+    const fieldErrors = error.response?.data?.fieldErrors;
+    if (code !== undefined) result.code = code;
+    if (status !== undefined) result.status = status;
+    if (fieldErrors !== undefined) result.fieldErrors = fieldErrors;
+    return result;
   }
 
   if (error instanceof Error) {

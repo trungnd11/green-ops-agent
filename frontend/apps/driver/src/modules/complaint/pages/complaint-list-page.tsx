@@ -32,7 +32,7 @@ export function ComplaintListPage() {
   const navigate = useNavigate();
   const qc = useQueryClient();
   const toast = useToast();
-  const [page, setPage] = useState(0);
+  const [page] = useState(0);
   const [createOpen, setCreateOpen] = useState(false);
   const [category, setCategory] = useState("khac");
   const [title, setTitle] = useState("");

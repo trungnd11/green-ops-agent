@@ -24,7 +24,7 @@ const TYPE_TILE: Record<string, TileVariant> = {
 
 export function NotificationPage() {
   const navigate = useNavigate();
-  const [page, setPage] = useState(0);
+  const [page] = useState(0);
   const qc = useQueryClient();
 
   const { data, isLoading } = useQuery({

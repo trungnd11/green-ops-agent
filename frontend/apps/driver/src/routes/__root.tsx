@@ -1,7 +1,8 @@
 import { createRootRouteWithContext, Outlet } from '@tanstack/react-router';
+import type { QueryClient } from '@tanstack/react-query';
 
 export interface RouterContext {
-  queryClient: import('@tanstack/react-query').QueryClient;
+  queryClient: QueryClient;
   auth: {
     isAuthenticated: boolean;
     fullName: string | null;

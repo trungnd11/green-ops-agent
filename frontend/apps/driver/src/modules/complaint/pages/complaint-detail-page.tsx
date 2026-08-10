@@ -19,13 +19,6 @@ const STATUS_LABEL: Record<string, string> = {
   rejected: "Đã từ chối",
 };
 
-const CATEGORY_LABEL: Record<string, string> = {
-  doanh_thu: "Doanh thu",
-  khau_tru: "Khấu trừ",
-  phat: "Phạt",
-  khac: "Khác",
-};
-
 export function ComplaintDetailPage() {
   const { id } = useParams({ from: "/_auth/complaints/$id" });
   const navigate = useNavigate();

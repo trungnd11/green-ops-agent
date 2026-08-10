@@ -144,7 +144,7 @@ export function WalletSheetsProvider({ children }: { children: ReactNode }) {
           ))}
         </div>
         <p className="amount-preview" style={{ marginTop: 14, minHeight: 20 }}>
-          {topupAmountNum > 0 ? `Bạn sẽ nạp ${formatCurrency(topupAmountNum)} ₫` : ''}
+          {topupAmountNum > 0 ? `Bạn sẽ nạp ${formatCurrency(topupAmountNum)}` : ''}
         </p>
         <div className="row-between" style={{ marginTop: 8 }}>
           <span className="meta" style={{ fontSize: 13 }}>Phương thức</span>
@@ -209,7 +209,7 @@ export function WalletSheetsProvider({ children }: { children: ReactNode }) {
           ))}
         </div>
         <p className="amount-preview" style={{ marginTop: 14, minHeight: 20 }}>
-          {withdrawAmountNum > 0 ? `Bạn sẽ nhận ${formatCurrency(withdrawAmountNum)} ₫` : ''}
+          {withdrawAmountNum > 0 ? `Bạn sẽ nhận ${formatCurrency(withdrawAmountNum)}` : ''}
         </p>
         {withdrawAmountNum > 0 && withdrawAmountNum > 2847500 && (
           <p className="meta" style={{ color: 'var(--danger)', marginTop: 8 }}>Số dư không đủ (khả dụng: 2.847.500 ₫)</p>

@@ -1,5 +1,4 @@
-import { createHttpClient } from '@xanh/api-client';
-import { driverLoginApi, type DriverLoginResponseData } from '@xanh/auth';
+import { driverLoginApi } from '@xanh/auth';
 
 const AUTH_KEY = 'xanhsm-driver-auth';
 
@@ -12,7 +11,7 @@ export interface DriverAuthState {
   companyId: string;
 }
 
-export function createDriverAuthStore(baseUrl: string) {
+export function createDriverAuthStore(_baseUrl: string) {
   function getSession(): DriverAuthState | null {
     try {
       const raw = localStorage.getItem(AUTH_KEY);

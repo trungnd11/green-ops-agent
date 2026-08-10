@@ -1,13 +1,5 @@
 const BASE_URL = '/api/v1';
 
-function getToken(): string {
-  try {
-    const raw = localStorage.getItem('xanhsm-driver-auth');
-    if (!raw) return '';
-    return JSON.parse(raw).token || '';
-  } catch { return ''; }
-}
-
 async function request<T>(method: string, url: string, data?: unknown): Promise<T> {
   const session = JSON.parse(localStorage.getItem('xanhsm-driver-auth') || '{}');
   const headers: Record<string, string> = {
