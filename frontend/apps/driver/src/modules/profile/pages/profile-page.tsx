@@ -1,11 +1,13 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
 import { Skeleton } from "@xanh/ui/skeleton";
+import { LogOut } from "lucide-react";
 import { fetchProfile } from "../api/profile.api";
 import { formatCurrency } from "@xanh/utils";
 
 export function ProfilePage() {
   const navigate = useNavigate();
+  const qc = useQueryClient();
   const { data: profile, isLoading } = useQuery({
     queryKey: ["driver-profile"],
     queryFn: fetchProfile,
@@ -31,45 +33,55 @@ export function ProfilePage() {
     { label: "Tiền cọc", value: profile?.depositAmount ? formatCurrency(profile.depositAmount) : "—" },
   ];
 
-  return (
-    <div className="space-y-4 p-4">
-      <h1 className="text-xl font-bold text-text-primary">Hồ sơ</h1>
+  const logout = () => {
+    localStorage.removeItem("xanhsm-driver-auth");
+    qc.clear();
+    navigate({ to: "/login" } as never);
+  };
 
-      <div className="flex flex-col items-center gap-3 rounded-card border border-border-default bg-surface-card p-6">
-        <div className="flex h-16 w-16 items-center justify-center rounded-full bg-bg-subtle">
-          <span className="text-xl font-bold text-text-secondary">
+  return (
+    <div className="screen-pad" style={{ display: "flex", flexDirection: "column", gap: 18 }}>
+      <div className="row-between">
+        <h1 className="h1">Hồ sơ</h1>
+      </div>
+
+      <div className="card glass" data-od-id="profile-head">
+        <div className="profile-head">
+          <div className="profile-avatar">
             {profile?.fullName?.charAt(0)?.toUpperCase() || "?"}
-          </span>
-        </div>
-        <div className="text-center">
-          <h2 className="text-base font-semibold text-text-primary">{profile?.fullName || "..."}</h2>
-          <p className="text-xs text-text-tertiary">{profile?.driverCode || ""}</p>
-        </div>
-        <div className="flex gap-6 text-center">
-          <div>
-            <p className="text-lg font-bold text-brand-teal">{formatCurrency(profile?.availableBalance || 0)}</p>
-            <p className="text-xs text-text-secondary">Số dư</p>
           </div>
-          <div>
-            <p className="text-lg font-bold text-text-primary">{formatCurrency(profile?.totalBalance || 0)}</p>
-            <p className="text-xs text-text-secondary">Tổng</p>
+          <h2 className="h1" style={{ fontSize: 22 }}>{profile?.fullName || "..."}</h2>
+          <p className="muted" style={{ fontSize: 14, fontWeight: 600, letterSpacing: "0.04em" }}>{profile?.driverCode || ""}</p>
+          <div className="stat-grid" style={{ width: "100%", marginTop: 16 }}>
+            <div className="stat glass-soft">
+              <p className="stat-label">Số dư</p>
+              <p className="stat-value num">{formatCurrency(profile?.availableBalance || 0)}</p>
+            </div>
+            <div className="stat glass-soft">
+              <p className="stat-label">Tổng số dư</p>
+              <p className="stat-value num">{formatCurrency(profile?.totalBalance || 0)}</p>
+            </div>
           </div>
         </div>
       </div>
 
-      <div className="rounded-card border border-border-default bg-surface-card p-4">
-        <h3 className="text-sm font-semibold text-text-primary mb-3">Thông tin cá nhân</h3>
-        <div className="space-y-3">
+      <div className="card glass" data-od-id="profile-info">
+        <h3 className="section-title" style={{ marginBottom: 6 }}>Thông tin cá nhân</h3>
+        <dl style={{ marginTop: 8 }}>
           {info.map((row) => (
-            <div key={row.label} className="flex justify-between text-sm">
-              <span className="text-text-secondary">{row.label}</span>
-              <span className="text-text-primary">{row.value}</span>
+            <div key={row.label} className="info-row">
+              <dt>{row.label}</dt>
+              <dd>{row.value}</dd>
             </div>
           ))}
-        </div>
+        </dl>
       </div>
 
-
+      <div className="card glass" style={{ padding: 8 }}>
+        <button type="button" className="drawer-item danger" onClick={logout}>
+          <LogOut size={19} strokeWidth={1.8} /> Đăng xuất
+        </button>
+      </div>
     </div>
   );
 }
