@@ -184,6 +184,7 @@ svg { display: block; }
   transition: border-color var(--motion-fast) var(--ease-out), box-shadow var(--motion-fast) var(--ease-out);
 }
 .input-shell:focus-within { border-color: color-mix(in oklab, var(--accent) 55%, var(--border)); box-shadow: inset 0 1px 0 var(--specular), var(--focus-ring); }
+.input-shell input:focus-visible, .input-shell select:focus-visible { box-shadow: none; }
 .input-shell svg { flex: none; color: var(--meta); }
 .input-shell input { height: 46px; font-size: var(--text-base); }
 .input-shell.err { border-color: color-mix(in oklab, var(--danger) 60%, var(--border)); }
