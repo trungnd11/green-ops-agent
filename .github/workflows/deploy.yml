@@ -1,0 +1,47 @@
+name: Deploy production
+
+on:
+  push:
+    branches: [main]
+
+concurrency:
+  group: deploy-production
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: [self-hosted, deploy]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build backend image
+        run: docker build -t green-ops-agent-backend:latest ./backend
+
+      - name: Build frontend image
+        run: docker build -t green-ops-agent-frontend:latest ./frontend
+
+      - name: Restart services
+        working-directory: /home/trung_dn9500/green-ops-agent
+        run: docker compose up -d --no-build backend frontend
+
+      - name: Wait for backend healthy
+        run: |
+          for i in $(seq 1 30); do
+            status=$(docker inspect --format='{{.State.Health.Status}}' agent-xanhsm-backend)
+            echo "backend health: $status ($i/30)"
+            [ "$status" = "healthy" ] && exit 0
+            sleep 5
+          done
+          echo "::error::Backend failed to become healthy"
+          exit 1
+
+      - name: Smoke test frontend
+        run: |
+          code=$(curl -s -o /dev/null -w '%{http_code}' http://localhost/)
+          echo "frontend HTTP $code"
+          [ "$code" = "200" ] || exit 1
+
+      - name: Cleanup dangling images
+        if: always()
+        run: docker image prune -f
